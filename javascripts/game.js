@@ -683,34 +683,22 @@ function updateDimensions() {
 }
 
 function updateCosts() {
-    document.getElementById("first").textContent = 'Cost: ' + shortenCosts(player.firstCost);
-    document.getElementById("second").textContent = 'Cost: ' + shortenCosts(player.secondCost);
-    document.getElementById("third").textContent = 'Cost: ' + shortenCosts(player.thirdCost);
-    document.getElementById("fourth").textContent = 'Cost: ' + shortenCosts(player.fourthCost);
-    document.getElementById("fifth").textContent = 'Cost: ' + shortenCosts(player.fifthCost);
-    document.getElementById("sixth").textContent = 'Cost: ' + shortenCosts(player.sixthCost);
-    document.getElementById("seventh").textContent = 'Cost: ' + shortenCosts(player.seventhCost);
-    document.getElementById("eight").textContent = 'Cost: ' + shortenCosts(player.eightCost);
+	var BIG_COST = 1000000
+	for (var tier = 1; tier <= 8; ++tier) {
+		var tn = TIER_NAMES[tier]
+		var cost = player[tn + "Cost"]
+		document.getElementById(tn).textContent = (cost.exponent > BIG_COST ? "" : "Cost : ") + shortenCosts(cost)
+		document.getElementById(tn + "Max").textContent = (cost.exponent > BIG_COST ? "Until 10: " : "Until 10, Cost: ") + shortenCosts(cost.times(10 - dimBought(tier)));
+	}
 
-    document.getElementById("firstMax").textContent = 'Until 10, Cost: ' + shortenCosts(player.firstCost.times(10 - dimBought(1)));
-    document.getElementById("secondMax").textContent = 'Until 10, Cost: ' + shortenCosts(player.secondCost.times(10 - dimBought(2)));
-    document.getElementById("thirdMax").textContent = 'Until 10, Cost: ' + shortenCosts(player.thirdCost.times(10 - dimBought(3)));
-    document.getElementById("fourthMax").textContent = 'Until 10, Cost: ' + shortenCosts(player.fourthCost.times(10 - dimBought(4)));
-    document.getElementById("fifthMax").textContent = 'Until 10, Cost: ' + shortenCosts(player.fifthCost.times(10 - dimBought(5)));
-    document.getElementById("sixthMax").textContent = 'Until 10, Cost: ' + shortenCosts(player.sixthCost.times(10 - dimBought(6)));
-    document.getElementById("seventhMax").textContent = 'Until 10, Cost: ' + shortenCosts(player.seventhCost.times(10 - dimBought(7)));
-    document.getElementById("eightMax").textContent = 'Until 10, Cost: ' + shortenCosts(player.eightCost.times(10 - dimBought(8)));
-
-    document.getElementById("tickSpeed").textContent = 'Cost: ' + shortenCosts(player.tickSpeedCost);
-
+    document.getElementById("tickSpeed").textContent = (player.tickSpeedCost.exponent > BIG_COST ? "" : "Cost: ") + shortenCosts(player.tickSpeedCost);
 
     for (var i=1; i<=8; i++) {
-
-        document.getElementById("infMax"+i).textContent = "Cost: " + shortenCosts(player["infinityDimension"+i].cost) + " IP"
+		var cost = player["infinityDimension"+i].cost
+        document.getElementById("infMax"+i).textContent = (cost.exponent > BIG_COST ? "" : "Cost: ") + shortenCosts(cost) + " IP"
     }
 
     for (var i=1; i<=8; i++) {
-
         document.getElementById("timeMax"+i).textContent = "Cost: " + shortenDimensions(player["timeDimension"+i].cost) + " EP"
     }
 }
